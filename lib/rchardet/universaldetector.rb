@@ -104,19 +104,20 @@ module CharDet
       end
 
       @_mLastChar = aBuf[-1..-1]
-      if @_mInputState == EEscAscii
-	if not @_mEscCharSetProber
-	  @_mEscCharSetProber = EscCharSetProber.new()
-	end
-	if @_mEscCharSetProber.feed(aBuf) == EFoundIt
-	  @result = {'encoding' =>  self._mEscCharSetProber.get_charset_name(),
-			       'confidence' =>  @_mEscCharSetProber.get_confidence()
-	  }
-	  @done = true
-	end
-      elsif @_mInputState == EHighbyte
+	#       if @_mInputState == EEscAscii
+	# if not @_mEscCharSetProber
+	#   @_mEscCharSetProber = EscCharSetProber.new()
+	# end
+	# if @_mEscCharSetProber.feed(aBuf) == EFoundIt
+	#   @result = {'encoding' =>  self._mEscCharSetProber.get_charset_name(),
+	# 		       'confidence' =>  @_mEscCharSetProber.get_confidence()
+	#   }
+	#   @done = true
+	# end
+      if @_mInputState == EHighbyte
 	if not @_mCharSetProbers or @_mCharSetProbers.empty?
-	  @_mCharSetProbers = [MBCSGroupProber.new(), SBCSGroupProber.new(), Latin1Prober.new()]
+	  # @_mCharSetProbers = [MBCSGroupProber.new(), SBCSGroupProber.new(), Latin1Prober.new()]
+		@_mCharSetProbers = [MBCSGroupProber.new(), Latin1Prober.new()]
 	end
 	for prober in @_mCharSetProbers
 	  if prober.feed(aBuf) == EFoundIt
